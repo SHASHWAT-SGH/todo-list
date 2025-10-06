@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo</title>
+    <title>Todo App</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,9 +15,11 @@
     <header>
         <h1>Todo List</h1>
         <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search note...">
+            <input type="text" id="search-input" placeholder="Search task...">
             <select id="search-filter">
                 <option value="all">All</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
             </select>
             <button id="color-mode-button">
                 <ion-icon name="moon-outline" class="icon-color-mode"></ion-icon>
@@ -26,28 +28,10 @@
     </header>
 
     <main>
-        <!-- <img class="empty-list-img" src="/assets/empty.png"/> -->
+        <img class="empty-list-img" src="/assets/empty.png" alt="Empty list illustration"/>
 
-        <!-- Task list -->
         <div class="task-container">
             <ul>
-               <li>
-                    <div class="task-item">
-                        <span>
-                            <input type="checkbox" class="task-item__checkbox" id="task-checkbox">  
-                            <label for="task-checkbox" class="task-item__title">Task 1</label>
-                        </span>
-                    
-                        <span class="task-item__buttons-container">
-                            <button class="button-task-panel">
-                                <ion-icon name="pencil-outline"></ion-icon>
-                            </button>
-                            <button class="button-task-panel">
-                                <ion-icon name="trash-outline"></ion-icon>
-                            </button>
-                        </span>
-                    </div>
-                </li>
             </ul>
         </div>
     </main>
@@ -56,17 +40,18 @@
         <ion-icon name="add-outline"></ion-icon>
     </button>
 
-    <!-- Modal -->
-     <div class="modal" id="modal">
+    <div class="modal" id="modal">
         <div class="modal__modal-content">
-            <h2>Add New Task</h2>
+            <h2 id="modal-title">Add New Task</h2>
             <form id="task-form">
                 
-                <input type="text" class="task-form__task-title" name="title" placeholder="Input your task..." required maxlength="50"/>
+                <input type="text" class="task-form__task-title" name="title" placeholder="Input your task..." required maxlength="50" id="task-title-input"/>
+                
+                <input type="hidden" id="edit-task-id" value=""> 
 
                 <div class="modal-content__controls">
                     <button class="button-type-2" id="modal-cancel-button" type="button">Cancel</button>
-                    <button type="submit" form="task-form">Add Task</button>
+                    <button type="submit" id="modal-submit-button">Add Task</button>
                 </div>
             </form>
         </div>
