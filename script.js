@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalSubmitButton = document.getElementById('modal-submit-button');
     const editTaskIdInput = document.getElementById('edit-task-id');
     
+    function debounce(func, delay) {
+        let timeoutId;
+        return function(...args) {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
     function getTasks() {
         return JSON.parse(localStorage.getItem('tasks')) || [];
     }
@@ -167,6 +175,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const debouncedFilter = debounce((tasks, searchTerm, filterValue) => {
+        const result = filterTasks(tasks, searchTerm, filterValue);
+        console.log('Filtered:', result);
+        renderTasks(result);
+    }, 300);
+
     const searchInput = document.getElementById('search-input');
     const searchFilter = document.getElementById('search-filter');
     
@@ -174,8 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tasks = getTasks();
         const searchTerm = searchInput.value.trim();
         const filterValue = searchFilter.value;
-        const filtered = filterTasks(tasks, searchTerm, filterValue);
-        renderTasks(filtered);
+        debouncedFilter(tasks, searchTerm, filterValue);
     };
 
     searchInput.addEventListener('input', handleFilterAndSearch);
